@@ -1,8 +1,27 @@
 package io.spring.image.demo.infra.repository;
 
 import io.spring.image.demo.domain.entity.Image;
+import io.spring.image.demo.domain.enums.ImageExtension;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.util.StringUtils;
 
-public interface ImageRepository extends JpaRepository<Image,
-    String> {
+import java.util.List;
+
+import static java.lang.ScopedValue.where;
+import static java.util.concurrent.CompletableFuture.anyOf;
+
+public interface ImageRepository extends JpaRepository<Image, String>, JpaSpecificationExecutor<Image> {
+    Specification<Image> spec = where(conjuntion()){
+        if(extension !=null){
+            spec = spec.and(extensionEquals(extension));
+        }
+        if(StringUtils.hasText(query)) {
+            spec = spec.and(anyOf(nameLike(query), tagsLike(query)));
+        }
+        return findAll(spec);
+    }
+
+    List<Image> findByExtensionAndNameOrTagsLike(ImageExtension extension, String query);
 }

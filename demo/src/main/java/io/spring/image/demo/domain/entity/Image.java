@@ -38,5 +38,9 @@ public class Image {
     @Column(name = "file",columnDefinition = "LONGBLOB")
     @Lob
     private byte[] file;
+
+    public String getFileName(){
+        return getName().concat(".").concat(getExtension().name());
+    }
 }
 
