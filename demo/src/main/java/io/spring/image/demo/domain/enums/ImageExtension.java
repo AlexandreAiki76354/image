@@ -7,14 +7,14 @@ import java.util.Arrays;
 
 public enum ImageExtension {
     PNG (MediaType.IMAGE_PNG),
+    JPG (MediaType.IMAGE_JPEG),
     GIF (MediaType.IMAGE_GIF),
-    JPG (MediaType.IMAGE_JPEG);
+    JPEG (MediaType.IMAGE_JPEG);
 
 // WebP,
 // JPEG
     @Getter
     private MediaType mediaType;
-
 
     ImageExtension(MediaType mediaType){
         this.mediaType = mediaType;
@@ -24,4 +24,12 @@ public enum ImageExtension {
         return Arrays.stream(values())
                 .filter(ie -> ie.mediaType.equals(mediaType)).findFirst().orElse(null);
     }
+
+    public static ImageExtension ofName(String name){
+        return Arrays.stream(values())
+                .filter(ie-> ie.name().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
 }

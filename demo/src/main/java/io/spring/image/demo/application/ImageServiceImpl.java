@@ -34,5 +34,4 @@ public class ImageServiceImpl implements ImageService {
     public List<Image> search(ImageExtension extension, String query){
         return repository.findByExtensionAndNameOrTagsLike(extension, query);
     }
-
 }
